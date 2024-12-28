@@ -1,4 +1,4 @@
-const token = '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'; // Reemplázalo con tu Token Personal
+const token = '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'; // Reemplázalo con tu Token Personal
 const owner = 'HCoreBeat'; // Tu usuario de GitHub
 const repo = 'Asere'; // Nombre del repositorio
 const path = 'Json/productos.json'; // Ruta del archivo JSON
