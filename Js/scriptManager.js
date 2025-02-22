@@ -1,17 +1,60 @@
-const token = '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'; // Reemplázalo con tu Token Personal
+// Parte fija del token
+const t = "ghp_";
+
+// Declaramos las variables globales
+let acceso = null;
+let to = null;
+const llave = 'GH_TOKEN.json';
+
+// Declaramos headers como global
+let headers = null;
+
+// Función para obtener la parte dinámica del token
+async function obtenerLlave() {
+  try {
+    const response = await fetch(llave);
+    if (!response.ok) {
+      throw new Error('Network response was not ok ' + response.statusText);
+    }
+    const data = await response.json();
+    acceso = data.token;
+    to = t + acceso;
+    console.log("llave cargada: " + to);
+    
+    // Definimos los headers usando la variable `to`
+    headers = {
+      Authorization: `Bearer ${to}`,
+      Accept: 'application/vnd.github.v3+json'
+    };
+    
+    // Aquí puedes usar las variables globales
+    console.log("Headers: ", headers);
+    
+    // Llamada a otras funciones que usan headers
+    usarHeaders();
+  } catch (error) {
+    console.error('Error:', error);
+  }
+}
+
+function usarHeaders() {
+  // Ejemplo de uso de headers en otra función
+  console.log("Usando headers en otra función: ", headers);
+}
+
+// Llamamos a la función para obtener la llave
+obtenerLlave();
+
 const owner = 'HCoreBeat'; // Tu usuario de GitHub
 const repo = 'Asere'; // Nombre del repositorio
 const path = 'Json/productos.json'; // Ruta del archivo JSON
 
-const headers = {
-    Authorization: `Bearer ${token}`,
-    Accept: 'application/vnd.github.v3+json'
-};
+
 
 let productos = [];
 
 // Categorías predefinidas
-const categorias = ['combos', 'frutas', 'carnes', 'enlatados', 'aderezos', 'pastas-y-granos', 'lacteos', 'despensa', 'bebidas', 'alcohol', 'cakes','confituras', 'otros'];
+const categorias = [ 'frutas', 'carnes', 'enlatados', 'aderezos', 'pastas-y-granos', 'lacteos', 'despensa', 'bebidas', 'alcohol', 'cakes','confituras', 'otros'];
 
 const buttons = document.querySelectorAll('.button-group button');
 buttons.forEach(button => {
@@ -941,7 +984,7 @@ async function reemplazarImagenGitHub(oldImage, newFile) {
     const path = oldImage; // Usar la misma ruta del archivo viejo, por ejemplo 'img/24_de_Diciembre.jpg'
 
     const headers = {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${to}`,
         'Content-Type': 'application/octet-stream'
     };
 
